@@ -1,8 +1,18 @@
 # LibraryDeskSense
 
-LibraryDeskSense is an IoT system for monitoring a library study desk. An ESP32 reads desk occupancy, sound intensity, and light level, then sends the data to a local Python backend. The backend stores data in InfluxDB, visualizes it in Grafana, runs analytics, and supports Telegram alerts.
+LibraryDeskSense is a smart library desk monitoring project built around an ESP32, a small set of sensors, and a local Python backend. The idea is simple: help understand whether a study desk is occupied, how bright the area is, and whether the space is quiet enough for focused work.
 
-The microphone is used only for sound intensity estimation. No raw audio is stored or transmitted.
+The ESP32 collects distance, light, and sound-intensity readings, then sends them to a backend that stores the data in InfluxDB, shows live dashboards in Grafana, runs analytics, and can send Telegram updates. It is designed as a practical end-to-end IoT system, from embedded firmware to data visualization.
+
+The microphone is used only to estimate sound intensity. No raw audio is stored or transmitted.
+
+## About This Project
+
+This project was made to explore how a real IoT pipeline works when hardware, networking, backend services, dashboards, and analytics all need to cooperate. It combines ESP-IDF firmware, HTTP/CoAP telemetry, MQTT runtime configuration, Docker services, time-series storage, forecasting, and a Telegram bot into one working system.
+
+**Short description:** Smart ESP32-based library desk monitor for occupancy, light, quietness, analytics, dashboards, and Telegram alerts.
+
+**Topics:** `esp32`, `iot`, `esp-idf`, `freertos`, `mqtt`, `coap`, `http`, `influxdb`, `grafana`, `docker`, `telegram-bot`, `sensors`, `time-series`, `library`
 
 ```text
 ESP32 + sensors
