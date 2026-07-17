@@ -206,7 +206,6 @@ This project helped me practice:
 
 - Embedded programming with ESP-IDF and FreeRTOS
 - Sensor integration on ESP32
-- Task-based firmware design with queues and shared configuration
 - MQTT, HTTP, and CoAP communication in an IoT system
 - Docker-based local deployment
 - Time-series storage with InfluxDB
@@ -219,5 +218,4 @@ This project helped me practice:
 - Add support for multiple desks and multiple ESP32 devices
 - Improve noise classification beyond intensity estimation
 - Add cloud deployment for the backend
-- Improve Grafana dashboard design and alerts
 - Add a web interface for configuration management
