@@ -20,6 +20,15 @@ Python proxy -> InfluxDB -> Grafana
              -> Telegram bot
 ```
 
+## Architecture
+
+![System architecture](docs/images/architecture.png)
+
+The ESP32 firmware reads three sensors in a sensing task and hands data to
+telemetry (HTTP/CoAP) and event (MQTT) tasks. A Python proxy ingests telemetry,
+writes it to InfluxDB, and feeds Grafana dashboards, analytics, and a Telegram
+bot. Runtime configuration is pushed back to the device over MQTT.
+
 ## Main Features
 
 - Desk occupancy detection using an HC-SR04 ultrasonic sensor
@@ -104,6 +113,11 @@ Copy-Item .env.example .env
 
 The proxy should start the HTTP server, CoAP server, MQTT subscriber, and InfluxDB writer.
 
+![Python proxy ingesting telemetry](docs/images/proxy-console.png)
+
+The proxy log shows telemetry arriving over both CoAP and HTTP, with the device
+picking a transport at runtime.
+
 ## Firmware Build and Flash
 
 From the firmware folder:
@@ -114,6 +128,11 @@ idf.py build flash monitor
 ```
 
 Use the correct serial port if your ESP32 is not detected automatically.
+
+![Firmware serial monitor](docs/images/firmware-serial.png)
+
+The serial monitor shows the sensing loop and adaptive telemetry: each reading is
+sent over HTTP or CoAP based on the live EWMA latency of each transport.
 
 ## Runtime Configuration
 
@@ -144,6 +163,11 @@ Grafana:  http://localhost:3000
 InfluxDB: http://localhost:8086
 ```
 
+![Grafana dashboard](docs/images/grafana-dashboard.png)
+
+The dashboard shows live desk occupancy, session duration, utilisation, light
+and noise trends, recent high-noise/poor-lighting events, and forecast accuracy.
+
 Main InfluxDB measurements:
 
 - `telemetry`
@@ -153,6 +177,11 @@ Main InfluxDB measurements:
 - `communication_performance`
 - `forecast`
 - `forecast_metrics`
+
+Occupancy is detected on-device and published as MQTT events, which the proxy
+records in the `events` and `occupancy_sessions` measurements:
+
+![Occupancy events on the serial monitor](docs/images/occupancy-events.png)
 
 ## Analytics and Evaluation
 
@@ -195,6 +224,11 @@ Available commands:
 - `/start`
 - `/status`
 - `/stats`
+
+![Telegram bot](docs/images/telegram-bot.png)
+
+The bot answers `/status` and `/stats` on demand and pushes high-noise and
+poor-lighting alerts as they happen.
 
 
 ## Future Improvements
